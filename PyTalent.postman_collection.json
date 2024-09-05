@@ -1,0 +1,1156 @@
+{
+	"info": {
+		"_postman_id": "3b6e6602-c3a4-435b-84dd-06cf9be74d5b",
+		"name": "PyTalent",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27786928"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();\r",
+									"\r",
+									"pm.environment.set('token', res.data.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"user3@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.unset('token');"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "create hr",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"hr8@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"username\": \"HR8\",\r\n    \"role\" : \"hr\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/create-hr",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"create-hr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user information",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hr1@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/user-info/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"user-info",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get list hrs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/list-hrs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"list-hrs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user2@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/update-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "assessment",
+			"item": [
+				{
+					"name": "create assessment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// var moment = require(\"moment\");\r",
+									"\r",
+									"// // Lấy giá trị của end_time từ body\r",
+									"// var endTimeString = pm.request.body.raw.match(/\"end_time\": \"(.*?)\"/)[1];\r",
+									"// console.log(\"endTimeString::\", endTimeString);\r",
+									"\r",
+									"// // Chuyển đổi thành đối tượng Date\r",
+									"// var endTime = new moment(endTimeString, \"DD-MM-YYYY HH:mm:ss\").toDate();\r",
+									"// console.log(\"endTime\", endTime);\r",
+									"\r",
+									"// // Chuyển đổi đối tượng Date thành định dạng \"YYYY-MM-DDTHH:mm:ssZ\"\r",
+									"// var formattedEndTime = moment(endTime).format(\"YYYY-MM-DDTHH:mm:ss[Z]\");\r",
+									"// console.log(\"formattedEndTime\", formattedEndTime);\r",
+									"\r",
+									"// // Gán lại giá trị cho biến trong body\r",
+									"// pm.request.body.raw = pm.request.body.raw.replace(/\"end_time\": \"(.*?)\"/, `\"end_time\": \"${formattedEndTime}\"`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Assessment NodeJS Easy 1\",\r\n    \"startTime\": \"\",\r\n    \"endTime\": \"2025-05-18 06:48:30\",\r\n    \"status\": \"Infinite\",\r\n    \"hrId\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/assessments/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get assessments by hr id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/assessments/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get detail assessment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/assessments/detail/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "invite candidates",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"list_candidate_emails\" : [\"user2@gmail.com\", \"user3@gmail.com\"],\r\n    \"assessmentId\": 1,\r\n    \"status\": \"Pending\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/assessments/invite",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"invite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete assessment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/assessments/delete/37",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"delete",
+								"37"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update candidate assessment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/assessments/update-confirm/29/21",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"update-confirm",
+								"29",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get assessment by candidate id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/assessments/candidate/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"candidate",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "archive assessment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/assessments/archive/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessments",
+								"archive",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "game-results",
+			"item": [
+				{
+					"name": "start play game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assessmentId\": 1,\r\n    \"candidateId\": 6,\r\n    \"gameId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/results/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"results",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "answer logical question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"candidateAnswer\": \"No\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/logical/20/answer/67",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logical",
+								"20",
+								"answer",
+								"67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "continue play game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/results/continue",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"results",
+								"continue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "answer memory game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"candidateAnswer\": \"left left left left\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/memory/2/answer/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"memory",
+								"2",
+								"answer",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "export results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/results/export",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"results",
+								"export"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "complete game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/results/complete/21",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"results",
+								"complete",
+								"21"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "games",
+			"item": [
+				{
+					"name": "create new game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": \"Verbal\",\r\n    \"timeLimit\": 0,\r\n    \"totalQuestionLevel\": 25\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/games/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"games",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all games",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get detail game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/games/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"games",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "hr-games",
+			"item": [
+				{
+					"name": "create hr game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hrId\": \"18\",\r\n    \"gameId\": \"4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hr-games/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"hr-games",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get games by hrId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/hr-games/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"hr-games",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all hr games",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "delete hr game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"gameId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/hr-games/delete/6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"hr-games",
+								"delete",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "assessment-games",
+			"item": [
+				{
+					"name": "add game to assessment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assessmentId\": 15,\r\n    \"gameId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/assessment-games/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessment-games",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all games in assessment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/assessment-games/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessment-games",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete game in assessment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/assessment-games/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assessment-games",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "logical-question",
+			"item": [
+				{
+					"name": "create logical question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Question 109\",\r\n    \"first_statement\": \"Statement 3\",\r\n    \"second_statement\": \"Statement 4\",\r\n    \"conclusion\": \"Statement 3 is true\",\r\n    \"score\": 1,\r\n    \"result\": \"Yes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/logical-questions/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logical-questions",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get random logical question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/logical-questions/random",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logical-questions",
+								"random"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete logical question",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/logical-questions/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logical-questions",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get detail logical question",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/logical-questions/detail/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logical-questions",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update logical question score",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/logical-questions/update/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logical-questions",
+								"update",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
