@@ -1,0 +1,10 @@
+export { Users as UsersEntity } from './users.entity';
+export { Assessments as AssessmentsEntity } from './assessments.entity';
+export { Games as GamesEntity } from './games.entity';
+export { HrGames as HrGamesEntity } from './hr-games.entity';
+export { CandidateAssessments as CandidateAssessmentsEntity } from './candidate-assessment';
+export { GameResults as GameResultsEntity } from './games-results.entity';
+export { AssessmentGames as AssessmentGamesEntity } from './assessment-game.entity';
+export { LogicalQuestions as LogicalQuestionsEntity } from './logical-questions.entity';
+export { LogicalAnswers as LogicalAnswersEntity } from './logical-answers.entity';
+export { MemoryAnswers as MemoryAnswersEntity } from './memory-answers.entity';
