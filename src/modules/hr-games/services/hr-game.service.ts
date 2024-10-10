@@ -3,10 +3,7 @@ import { Users } from '@entities/users.entity';
 import { plainToClass } from 'class-transformer';
 import { HrGamesRepository } from '../repositories/hr-game.repository';
 import { UsersRepository } from '../../users/repositories/user.repository';
-import {
-  CreateHrGameInterface,
-  DeleteHrGameInterface,
-} from '@shared/interfaces/hr-game.interface';
+import { CreateHrGameInterface } from '@shared/interfaces/hr-game.interface';
 import { HrGames } from '@entities/hr-games.entity';
 import { RoleEnum } from '@common/enum/role.enum';
 import { I18nService } from 'nestjs-i18n';
@@ -95,9 +92,7 @@ export class HrGamesService {
       await this.hrGamesRepository.findAllGamesByHrId(hrId);
 
     if (listGames.length === 0)
-      throw new CustomizeException(
-        'This hr have not been authorized to access to any games before',
-      );
+      throw new CustomizeException(this.i18n.t('message.NO_HR_GAMES'));
 
     return listGames;
   }
@@ -113,30 +108,20 @@ export class HrGamesService {
     return allHrGames;
   }
 
-  async deleteHrGame(hrId: number, params: DeleteHrGameInterface) {
-    const existedHr = await this.checkExistedHr(hrId);
-    const existedGame = await this.checkExistedGame(params.gameId);
+  async deleteHrGame(hrId: number, gameId: number) {
+    const deleteHrGame = await this.hrGamesRepository.delete({
+      hrId: hrId,
+      gameId: gameId,
+    });
 
-    if (!existedHr)
-      throw new CustomizeException(this.i18n.t('message.HR_NOT_FOUND'));
+    return deleteHrGame;
 
-    if (!existedGame)
-      throw new CustomizeException(this.i18n.t('message.GAME_NOT_FOUND'));
-
-    const existedHrGame: HrGames = await this.getExistedHrGame(
-      hrId,
-      params.gameId,
-    );
-
-    if (!existedHrGame)
-      throw new CustomizeException(this.i18n.t('message.HR_GAME_NOT_FOUND'));
-
-    return await this.hrGamesRepository
-      .createQueryBuilder()
-      .delete()
-      .from(HrGames)
-      .where('hrId = :hrId', { hrId: hrId })
-      .andWhere('gameId = :gameId', { gameId: params.gameId })
-      .execute();
+    // return await this.hrGamesRepository
+    //   .createQueryBuilder()
+    //   .delete()
+    //   .from(HrGames)
+    //   .where('hrId = :hrId', { hrId: hrId })
+    //   .andWhere('gameId = :gameId', { gameId: gameId })
+    //   .execute();
   }
 }

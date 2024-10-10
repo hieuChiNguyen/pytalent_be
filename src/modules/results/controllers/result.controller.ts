@@ -44,7 +44,7 @@ export class GameResultsController extends BaseController {
     @Res() res: Response,
   ) {
     const [game, newGameResult] = await Promise.all([
-      this.gameService.getDetailGame(createGameResultDto.gameId),
+      this.gameService.getGameById(createGameResultDto.gameId),
       this.gameResultService.createGameResults(createGameResultDto),
     ]);
 
@@ -103,7 +103,7 @@ export class GameResultsController extends BaseController {
     @Res() res: Response,
   ) {
     const [game, newGameResult] = await Promise.all([
-      this.gameService.getDetailGame(continueGameResultDto.gameId),
+      this.gameService.getGameById(continueGameResultDto.gameId),
       this.gameResultService.createGameResults(continueGameResultDto),
     ]);
 

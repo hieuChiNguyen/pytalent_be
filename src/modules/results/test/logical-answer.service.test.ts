@@ -145,7 +145,7 @@ describe('LogicalAnswersService', () => {
         params: {
           candidateAnswer: 'No',
         },
-        checkResult: false, // Updated to match the test case
+        checkResult: false,
         initialLogicalAnswer: {
           id: 2,
           candidateAnswer: null,
@@ -237,14 +237,14 @@ describe('LogicalAnswersService', () => {
           findOne: jest.fn().mockResolvedValue(found ? expected : null),
         };
 
-        const i18nMock = {
+        const mockI18n = {
           t: jest.fn().mockReturnValue('message.LOGICAL_QUESTION_NOT_FOUND'),
         };
 
         const service = new LogicalAnswersService(
           {} as any,
           logicalQuestionRepository as any,
-          i18nMock as any,
+          mockI18n as any,
         );
 
         if (!found) {

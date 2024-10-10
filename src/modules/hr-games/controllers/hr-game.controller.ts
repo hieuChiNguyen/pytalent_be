@@ -8,6 +8,7 @@ import {
   Param,
   Request,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 import { Response } from 'express';
@@ -104,34 +105,36 @@ export class HrGamesController extends BaseController {
     );
   }
 
-  @Delete('/delete/:hrId')
+  @Delete('/delete')
   @UseGuards(JwtAuthGuard, new AuthorizationGuard([RoleEnum.ADMIN]))
   async deleteHrGame(
-    @Param('hrId') hrId: number,
-    @Body() deleteHrGameDto: DeleteHrGameDto,
+    @Query() queryParams: { hrId: number; gameId: number },
     @Res() res: Response,
   ) {
-    const deleteHrGame = await this.hrGameService.deleteHrGame(
-      hrId,
-      deleteHrGameDto,
-    );
+    const { hrId, gameId } = queryParams;
+
+    const deleteHrGame = await this.hrGameService.deleteHrGame(hrId, gameId);
 
     if (deleteHrGame.affected) {
       return this.successResponse(
         {
           data: {
             deleted: true,
-            links: {
-              createHrHame: CREATE_HR_GAME,
-              getGamesByHr: GET_GAMES_BY_HR_ID,
-              allHrGames: GET_ALL_HR_GAMES,
-              deleteHrHame: DELETE_HR_GAME,
-            },
           },
           message: 'delete success',
         },
         res,
       );
     }
+
+    return this.errorsResponse(
+      {
+        data: {
+          deleted: false,
+        },
+        message: 'delete failed',
+      },
+      res,
+    );
   }
 }

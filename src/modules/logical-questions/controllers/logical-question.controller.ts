@@ -49,24 +49,24 @@ export class LogicalQuestionsController extends BaseController {
           data: {
             newLogicalQuestion,
             links: {
-              create_logical_question: CREATE_LOGICAL_QUESTION,
-              delete_logical_question: DELETE_LOGICAL_QUESTION,
-              get_detail_logical_question: GET_DETAIL_LOGICAL_QUESTION,
-              random_logical_questions: RANDOM_LOGICAL_QUESTIONS,
+              createLogicalQuestion: CREATE_LOGICAL_QUESTION,
+              deleteLogicalQuestion: DELETE_LOGICAL_QUESTION,
+              getDetailLogicalQuestion: GET_DETAIL_LOGICAL_QUESTION,
+              randomLogicalQuestions: RANDOM_LOGICAL_QUESTIONS,
             },
           },
           message: 'create logical question success',
         },
         res,
       );
-    } else {
-      return this.errorsResponse(
-        {
-          message: 'create logical question failed',
-        },
-        res,
-      );
     }
+
+    return this.errorsResponse(
+      {
+        message: 'create logical question failed',
+      },
+      res,
+    );
   }
 
   @Get('/random')
@@ -75,22 +75,22 @@ export class LogicalQuestionsController extends BaseController {
     new AuthorizationGuard([RoleEnum.ADMIN, RoleEnum.CANDIDATE]),
   )
   async getRandomLogicalQuestions(@Res() res: Response) {
-    const logical_questions =
+    const logicalQuestions =
       await this.logicalQuestionService.randomLogicalQuestions();
 
-    const len = logical_questions.length;
+    const len = logicalQuestions.length;
 
-    if (logical_questions) {
+    if (logicalQuestions) {
       return this.successResponse(
         {
           data: {
-            logical_questions,
+            logicalQuestions,
             length: len,
             links: {
-              create_logical_question: CREATE_LOGICAL_QUESTION,
-              delete_logical_question: DELETE_LOGICAL_QUESTION,
-              get_detail_logical_question: GET_DETAIL_LOGICAL_QUESTION,
-              random_logical_questions: RANDOM_LOGICAL_QUESTIONS,
+              createLogicalQuestion: CREATE_LOGICAL_QUESTION,
+              deleteLogicalQuestion: DELETE_LOGICAL_QUESTION,
+              getDetailLogicalQuestion: GET_DETAIL_LOGICAL_QUESTION,
+              randomLogicalQuestions: RANDOM_LOGICAL_QUESTIONS,
             },
           },
           message: 'success',
@@ -111,26 +111,24 @@ export class LogicalQuestionsController extends BaseController {
     @Param('questionId') questionId: number,
     @Res() res: Response,
   ) {
-    const logical_question =
+    const logicalQuestion =
       await this.logicalQuestionService.getDetailLogicalQuestion(questionId);
 
-    if (logical_question) {
-      return this.successResponse(
-        {
-          data: {
-            logical_question,
-            links: {
-              create_logical_question: CREATE_LOGICAL_QUESTION,
-              delete_logical_question: DELETE_LOGICAL_QUESTION,
-              get_detail_logical_question: GET_DETAIL_LOGICAL_QUESTION,
-              random_logical_questions: RANDOM_LOGICAL_QUESTIONS,
-            },
+    return this.successResponse(
+      {
+        data: {
+          logicalQuestion,
+          links: {
+            createLogicalQuestion: CREATE_LOGICAL_QUESTION,
+            deleteLogicalQuestion: DELETE_LOGICAL_QUESTION,
+            getDetailLogicalQuestion: GET_DETAIL_LOGICAL_QUESTION,
+            randomLogicalQuestions: RANDOM_LOGICAL_QUESTIONS,
           },
-          message: 'success',
         },
-        res,
-      );
-    }
+        message: 'success',
+      },
+      res,
+    );
   }
 
   @Delete('/delete/:questionId')
@@ -139,19 +137,14 @@ export class LogicalQuestionsController extends BaseController {
     @Param('questionId') questionId: number,
     @Res() res: Response,
   ) {
-    const delete_question =
+    const deleteQuestion =
       await this.logicalQuestionService.deleteLogicalQuestion(questionId);
 
-    if (delete_question.affected) {
+    if (deleteQuestion.affected) {
       return this.successResponse(
         {
           data: {
-            links: {
-              create_logical_question: CREATE_LOGICAL_QUESTION,
-              delete_logical_question: DELETE_LOGICAL_QUESTION,
-              get_detail_logical_question: GET_DETAIL_LOGICAL_QUESTION,
-              random_logical_questions: RANDOM_LOGICAL_QUESTIONS,
-            },
+            deleted: true,
           },
           message: 'delete success',
         },
@@ -167,22 +160,17 @@ export class LogicalQuestionsController extends BaseController {
     @Body() updateLogicalQuestionScore: UpdateLogicalQuestionScoreDto,
     @Res() res: Response,
   ) {
-    const updated_question =
+    const updatedQuestion =
       await this.logicalQuestionService.updateLogicalQuestionScore(
         questionId,
         updateLogicalQuestionScore,
       );
 
-    if (updated_question.affected) {
+    if (updatedQuestion.affected) {
       return this.successResponse(
         {
           data: {
-            links: {
-              create_logical_question: CREATE_LOGICAL_QUESTION,
-              delete_logical_question: DELETE_LOGICAL_QUESTION,
-              get_detail_logical_question: GET_DETAIL_LOGICAL_QUESTION,
-              random_logical_questions: RANDOM_LOGICAL_QUESTIONS,
-            },
+            updated: true,
           },
           message: 'update success',
         },

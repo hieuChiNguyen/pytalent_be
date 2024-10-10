@@ -38,7 +38,7 @@ export class GamesController extends BaseController {
           links: {
             createNewGame: CREATE_GAME,
             getAllGames: GET_ALL_GAMES,
-            getDetailGame: GET_DETAIL_GAME,
+            getGameById: GET_DETAIL_GAME,
           },
         },
         message: 'Create new game success',
@@ -59,7 +59,7 @@ export class GamesController extends BaseController {
           links: {
             createNewGame: CREATE_GAME,
             getAllGames: GET_ALL_GAMES,
-            getDetailGame: GET_DETAIL_GAME,
+            getGameById: GET_DETAIL_GAME,
           },
         },
       },
@@ -72,8 +72,8 @@ export class GamesController extends BaseController {
     JwtAuthGuard,
     new AuthorizationGuard([RoleEnum.ADMIN, RoleEnum.HR, RoleEnum.CANDIDATE]),
   )
-  async getDetailGame(@Param('gameId') gameId: number, @Res() res: Response) {
-    const game = await this.gamesService.getDetailGame(gameId);
+  async getGameById(@Param('gameId') gameId: number, @Res() res: Response) {
+    const game = await this.gamesService.getGameById(gameId);
 
     return this.successResponse(
       {
@@ -82,7 +82,7 @@ export class GamesController extends BaseController {
           links: {
             createNewGame: CREATE_GAME,
             getAllGames: GET_ALL_GAMES,
-            getDetailGame: GET_DETAIL_GAME,
+            getGameById: GET_DETAIL_GAME,
           },
         },
       },

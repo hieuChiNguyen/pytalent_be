@@ -44,7 +44,7 @@ export class GamesService {
     return listGames;
   }
 
-  async getDetailGame(gameId: number) {
+  async getGameById(gameId: number) {
     const game: Games = await this.gameRepository.findOne({
       where: {
         id: gameId,

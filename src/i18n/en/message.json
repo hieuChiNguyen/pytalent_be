@@ -13,6 +13,7 @@
   "GAME_PLAY_ONCE": "Candidates can only play once",
   "HR_GAME_EXISTED": "This game had been authorized to this hr",
   "HR_GAME_NOT_FOUND": "This game had not been authorized to this hr",
+  "NO_HR_GAMES": "This hr have not been authorized to access to any games before",
   "PASSWORD_NOT_CHANGE": "Password have not been changed",
   "ASSESSMENT_NOT_FOUND": "Can not find this assessment",
   "CANDIDATE_NOT_FOUND": "Can not find this candidate",

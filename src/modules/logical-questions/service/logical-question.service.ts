@@ -27,11 +27,11 @@ export class LogicalQuestionsService {
       },
     );
 
-    const logical_question = await this.logicalQuestionRepository.save(
+    const logicalQuestion = await this.logicalQuestionRepository.save(
       paramCreate,
     );
 
-    return logical_question;
+    return logicalQuestion;
   }
 
   async randomLogicalQuestions(): Promise<LogicalQuestions[]> {
@@ -123,63 +123,55 @@ export class LogicalQuestionsService {
   }
 
   async getDetailLogicalQuestion(questionId: number) {
-    const logical_question = await this.logicalQuestionRepository.findOne({
+    const logicalQuestion = await this.logicalQuestionRepository.findOne({
       where: {
         id: questionId,
       },
       select: ['id', 'firstStatement', 'secondStatement', 'conclusion'],
     });
 
-    if (logical_question) return logical_question;
-    else
+    if (!logicalQuestion)
       throw new CustomizeException(
         this.i18n.t('message.LOGICAL_QUESTION_NOT_FOUND'),
       );
+
+    return logicalQuestion;
   }
 
   async deleteLogicalQuestion(questionId: number) {
-    const logical_question = await this.logicalQuestionRepository.findOne({
+    const logicalQuestion = await this.logicalQuestionRepository.findOne({
       where: {
         id: questionId,
       },
     });
 
-    if (logical_question) {
-      return await this.logicalQuestionRepository
-        .createQueryBuilder()
-        .delete()
-        .from(LogicalQuestions)
-        .where('id = :id', { id: questionId })
-        .execute();
-    } else
+    if (!logicalQuestion)
       throw new CustomizeException(
         this.i18n.t('message.LOGICAL_QUESTION_NOT_FOUND'),
       );
+
+    return await this.logicalQuestionRepository.delete(questionId);
   }
 
   async updateLogicalQuestionScore(
     questionId: number,
     updateLogicalQuestionScore: UpdateLogicalQuestionScoreDto,
   ) {
-    const logical_question = await this.logicalQuestionRepository.findOne({
+    const logicalQuestion = await this.logicalQuestionRepository.findOne({
       where: {
         id: questionId,
       },
     });
 
-    if (logical_question) {
-      const paramUpdate = plainToClass(LogicalQuestions, {
-        score: updateLogicalQuestionScore.score,
-      });
-
-      return await this.logicalQuestionRepository.update(
-        questionId,
-        paramUpdate,
-      );
-    } else {
+    if (!logicalQuestion)
       throw new CustomizeException(
         this.i18n.t('message.LOGICAL_QUESTION_NOT_FOUND'),
       );
-    }
+
+    const paramUpdate = plainToClass(LogicalQuestions, {
+      score: updateLogicalQuestionScore.score,
+    });
+
+    return await this.logicalQuestionRepository.update(questionId, paramUpdate);
   }
 }
